@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React useMemo 正常渲染次数</title>
+    <style></style>
+    <script
+      crossorigin
+      src="https://g.alicdn.com/code/lib/react/18.2.0/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://g.alicdn.com/code/lib/react-dom/18.2.0/umd/react-dom.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://gw.alipayobjects.com/os/lib/babel/standalone/7.18.8/babel.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/ahooks@3.7.2/dist/ahooks.js"
+    ></script>
+  </head>
+
+  <body>
+    <div id="app"></div>
+
+    <script type="text/babel" data-type="module">
+      function App() {
+        const [a, setA] = React.useState(1);
+        const [c, setC] = React.useState("c");
+        const b = React.useMemo(() => {
+          return `-->${a}<--`;
+        }, [a]);
+
+        ahooks.useTrackedEffect(
+          (a, b, c) => {
+            console.log("aEffect ", a, b, c);
+          },
+          [a, b, c]
+        );
+
+        return (
+          <div>
+            <h5>React useMemo 正常渲染次数</h5>
+            初次进入的时候，useMemo 的值也是一起初始化的，只渲染一次。
+            <br />
+            <pre>
+              a={a},b={b},c={c}
+            </pre>
+            <button
+              onClick={() => {
+                setA(a + 1);
+              }}
+            >
+              a+1 (改变a后，影响的useMemoB
+              也会变化，但两个变化是一起的，只会触发一次渲染)
+            </button>
+            <button
+              onClick={() => {
+                setC(c + "c");
+              }}
+            >
+              c+1
+            </button>
+          </div>
+        );
+      }
+
+      ReactDOM.render(
+        <>
+          {" "}
+          <App />
+        </>,
+        document.getElementById("app")
+      );
+    </script>
+  </body>
+</html>
