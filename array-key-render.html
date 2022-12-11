@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Array key 渲染</title>
+    <style></style>
+    <script
+      crossorigin
+      src="https://g.alicdn.com/code/lib/react/18.2.0/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://g.alicdn.com/code/lib/react-dom/18.2.0/umd/react-dom.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://gw.alipayobjects.com/os/lib/babel/standalone/7.18.8/babel.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/ahooks@3.7.2/dist/ahooks.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/lodash@4.17.21/lodash.js"
+    ></script>
+  </head>
+
+  <body>
+    <div id="app"></div>
+
+    <script type="text/babel" data-type="module">
+      function App() {
+        const [a, setA] = React.useState([1, 2, 3]);
+
+        ahooks.useTrackedEffect(
+          (a, b, c) => {
+            console.log("App ==> Effect ", a, b, c);
+          },
+          [a]
+        );
+
+        return (
+          <div>
+            <h5>React Array key 渲染</h5>
+            <pre>手动为inPut 输入值 </pre>
+            指定与值不相关的key:
+            {a.map((item, index) => (
+              <div key={index}>
+                {item}, <input />
+              </div>
+            ))}
+            指定与值相关的key:
+            {a.map((item, index) => (
+              <div key={item.toString()}>
+                {item}, <input />
+              </div>
+            ))}
+            <button
+              onClick={() => {
+                a.push(a.length + 1);
+                setA([...a]);
+              }}
+            >
+              push one
+            </button>
+            <button
+              onClick={() => {
+                a.shift();
+                setA([...a]);
+              }}
+            >
+              del first
+            </button>
+            <p>
+              由于组件实例是基于它们的 key 来决定是否更新以及复用，如果 key
+              是一个下标，那么修改顺序时会修改当前的 key，导致非受控组件的
+              state（比如输入框）可能相互篡改，会出现无法预期的变动。
+            </p>
+            <p>尽可能禁止用索引当 key 使用</p>
+          </div>
+        );
+      }
+
+      ReactDOM.render(
+        <>
+          <App />
+        </>,
+        document.getElementById("app")
+      );
+    </script>
+  </body>
+</html>
