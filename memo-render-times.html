@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React memo 正常渲染次数</title>
+    <style></style>
+    <script
+      crossorigin
+      src="https://g.alicdn.com/code/lib/react/18.2.0/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://g.alicdn.com/code/lib/react-dom/18.2.0/umd/react-dom.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://gw.alipayobjects.com/os/lib/babel/standalone/7.18.8/babel.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/ahooks@3.7.2/dist/ahooks.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/lodash@4.17.21/lodash.js"
+    ></script>
+  </head>
+
+  <body>
+    <div id="app"></div>
+
+    <script type="text/babel" data-type="module">
+      function Ch1() {
+        React.useEffect(() => {
+          console.log("Ch1 ==> Effect ");
+        });
+
+        return <div>ch1</div>;
+      }
+
+      const Ch2 = React.memo(function Ch2() {
+        React.useEffect(() => {
+          console.log("Ch2 ==> Effect ");
+        });
+
+        return <div>memo 无prop ch2</div>;
+      });
+
+      const Ch3 = React.memo(function Ch2({ a, b }) {
+        React.useEffect(() => {
+          console.log("Ch3 ==> Effect ");
+        });
+
+        return (
+          <div>
+            memo 浅比较 ch3,a={JSON.stringify(a)},b={JSON.stringify(b)}
+          </div>
+        );
+      });
+
+      const Ch4 = React.memo(
+        function Ch2({ a }) {
+          React.useEffect(() => {
+            console.log("Ch4 ==> Effect ");
+          });
+
+          return <div>memo 深比较 ch4,a={JSON.stringify(a)}</div>;
+        },
+        (pre, next) => {
+          return _.isEqual(pre, next);
+        }
+      );
+
+      function App() {
+        const [a, setA] = React.useState(1);
+        const [c, setC] = React.useState({ a: 1 });
+        const [d, setD] = React.useState({ b: 2 });
+
+        ahooks.useTrackedEffect(
+          (a, b, c) => {
+            console.log("App ==> Effect ", a, b, c);
+          },
+          [a, c, d]
+        );
+
+        return (
+          <div>
+            <h5>React memo 正常渲染次数</h5>
+
+            <pre>a={a}</pre>
+
+            <Ch1 />
+            <Ch2 />
+            <Ch3 a={c} b={d} />
+            <Ch4 a={c} />
+
+            <button
+              onClick={() => {
+                setA(a + 1);
+              }}
+            >
+              a+1
+            </button>
+            <button
+              onClick={() => {
+                setC({ ...c });
+              }}
+            >
+              Ch3/Ch4 浅比较 只修改引用
+            </button>
+            <button
+              onClick={() => {
+                setC({ ...c, a: c.a + 1 });
+              }}
+            >
+              Ch3/Ch4 深比较 修改引用和值
+            </button>
+            <br />
+            <button
+              onClick={() => {
+                console.log(d);
+                d.b++;
+                console.log(d);
+                setD(d);
+              }}
+            >
+              Ch3 浅比较 不修改引用
+            </button>
+            <pre>
+              d.b++; setD(d);
+              不修改对象引用的状态下，不会触发任何地方的变化，App/Ch3。
+              所以，对于对象类型，必须 setX 的时候进行引用的修改。
+            </pre>
+          </div>
+        );
+      }
+
+      ReactDOM.render(
+        <>
+          <App />
+        </>,
+        document.getElementById("app")
+      );
+    </script>
+  </body>
+</html>
