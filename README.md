@@ -1,5 +1,7 @@
 > - [React render 与 commit 的区别](https://zh-hans.reactjs.org/blog/2018/09/10/introducing-the-react-profiler.html#browsing-commits)
 
+---
+
 <ol>
   <li><a href="./useMemo-render-times.html">React useMemo 正常渲染次数</a></li>
   <li><a href="./memo-render-times.html">React memo 正常渲染次数</a></li>
