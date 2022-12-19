@@ -14,4 +14,5 @@
     <li><a href="https://github.com/facebook/react/issues/15156" target="_blank">官方给出的 useContext 解决 re-render 的方法<a>(还是
           jotai 方便)</li>
   </ul>
+  <li><a href="https://codesandbox.io/s/jotai-async-state-r-w-sync-kgshxq?file=/src/App.js" target="_blank">[codesandbox] jotai 异步读取获取实时值</a></li>
 </ol>
