@@ -15,4 +15,5 @@
           jotai 方便)</li>
   </ul>
   <li><a href="https://codesandbox.io/s/jotai-async-state-r-w-sync-kgshxq?file=/src/App.js" target="_blank">[codesandbox] jotai 异步读取获取实时值</a></li>
+  <li><a href="https://codesandbox.io/s/jotai-component-level-atoms-isolation-smxwio" target="_blank">[codesandbox] jotai 组件化隔离及使用方式</a></li>
 </ol>
