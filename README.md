@@ -16,4 +16,6 @@
   </ul>
   <li><a href="https://codesandbox.io/s/jotai-async-state-r-w-sync-kgshxq?file=/src/App.js" target="_blank">[codesandbox] jotai 异步读取获取实时值</a></li>
   <li><a href="https://codesandbox.io/s/jotai-component-level-atoms-isolation-smxwio" target="_blank">[codesandbox] jotai 组件化隔离及使用方式</a></li>
+  <li><a href="https://codesandbox.io/s/fetch-partial-value-from-an-atom-and-avoid-re-rendering-ff1emr" target="_blank">[codesandbox] jotai 从一个原子中取部分值，当原子更新时，只要部分值不变 则不 re-render</a></li>
+  
 </ol>
